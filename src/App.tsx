@@ -1,11 +1,13 @@
-
-
+import { GlobalStyle } from "./styles/global";
 
 
 export function App() {
   return (
    <div className="App">
-  hello world
+     <h1>
+      Hello world
+      <GlobalStyle/>
+    </h1>
     </div>
   );
 }
