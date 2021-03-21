@@ -1,25 +1,12 @@
-import { useEffect, useState } from "react";
-import { api } from "../services/api";
+import { useContext } from "react";
+
 import { Container } from "./styles";
-
-
-interface Transaction{
-    id: number,
-    title: string,
-    amount: number,
-    type:string;
-    category:string,
-    createdAt: string
-}
+import { TransactionsContext } from '../../TransactionsContext';
 
 export function TransactionTable(){
-    const [transactions, setTransactions] = useState<Transaction[]>([])
+    const transactions = useContext(TransactionsContext);
+    console.log(transactions)
 
-    useEffect( () => {
-        api.get('/transactions')
-        .then( response => setTransactions(response.data.transactions))
-    }
-    ,[])
     return(
         <Container>
             <table>
@@ -42,7 +29,7 @@ export function TransactionTable(){
                                 }).format(transaciton.amount)/* 1 */} 
                             </td>
                             <td>{transaciton.category}</td>
-                            <td> -
+                            <td>
                                 {new Intl.DateTimeFormat('pt-BR').format(
                                 new Date(transaciton.createdAt)) /* 2 */}
                             </td>
