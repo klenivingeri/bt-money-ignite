@@ -4,7 +4,9 @@ import Modal from 'react-modal';
 import closeimg from '../../assets/fechar.svg';
 import incomeImg from '../../assets/entradas.svg';
 import outcomeImg from '../../assets/saidas.svg';
-import { useState } from "react";
+import { FormEvent, useState } from "react";
+
+import { api } from "../services/api";
 
 
 interface NewTransactionsModalProps{
@@ -14,10 +16,19 @@ interface NewTransactionsModalProps{
 
 
 export function NewTransactionsModal({isOpen, onRequestClose}:NewTransactionsModalProps){
-   const [type, setType] = useState('deposit')
+    const [title, setTitle] = useState('');
+    const [value, setValue] = useState(0);
+    const [category, setCategory] = useState('');
+    const [type, setType] = useState('deposit');
+   
 
+   function handleCreateNewTransactions(event: FormEvent){
+     event.preventDefault() // 1
+     const data = {title,value,category,type}
 
-   console.log(type)
+     api.post('/transactions', data)
+     
+   }
   
   return(
                  
@@ -35,10 +46,14 @@ export function NewTransactionsModal({isOpen, onRequestClose}:NewTransactionsMod
           <img src={closeimg} alt="fechar" />
         </button>
 
-        <Container >
+        <Container onSubmit={handleCreateNewTransactions} >
           <h2>Cadastrar Transsação</h2>
-          <input placeholder="Título" />
-          <input placeholder="Valor" type="number" />
+          <input placeholder="Título"
+          value={title} 
+          onChange={event => setTitle(event.target.value)} />
+          <input placeholder="Valor" type="number" 
+          value={value} 
+          onChange={event => setValue(Number(event.target.value))} />
 
           <TransactionTypeContainer>
             <Radiobox 
@@ -62,7 +77,9 @@ export function NewTransactionsModal({isOpen, onRequestClose}:NewTransactionsMod
             </Radiobox>
             </TransactionTypeContainer>
 
-          <input placeholder="Categoria" />
+          <input placeholder="Categoria"
+          value={category} 
+          onChange={event => setCategory(event.target.value)} />
           <button type="submit">
             Cadastrar
           </button>
@@ -71,3 +88,8 @@ export function NewTransactionsModal({isOpen, onRequestClose}:NewTransactionsMod
     
     )
 }
+
+/**
+ 1) previne o evendo padrão que é tentar enviar o form
+
+*/
