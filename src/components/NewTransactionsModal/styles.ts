@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { darken } from 'polished'
+import { darken, transparentize} from 'polished'
 export const Container = styled.form`
 h2{
     color: var(--text-title);
@@ -53,12 +53,27 @@ export const TransactionTypeContainer = styled.div`
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
 
-    button{
+   
+
+`
+
+interface RadioBoxProps{
+    isActive: boolean;
+    activeColor: 'green' | 'red';
+} 
+
+const colors ={
+    red: '#E62E4D',
+    green: '#33cc95'
+}
+
+export const  Radiobox = styled.button<RadioBoxProps>`
     height: 4rem;
     border: 1px solid #d7d7d7;
     border-radius: 0.25rem;
 
-    background: transparent;
+    background: ${ (props) => props.isActive ? 
+    transparentize(0.8, colors[props.activeColor]) : 'transparent'};
 
     display:flex;
     align-items:center;
@@ -68,7 +83,7 @@ export const TransactionTypeContainer = styled.div`
     &:hover{
        border-color: ${darken(0.1, '#d7d7d7')};
     }
-}
+
     img{
         height:20px;
         width:20px;
@@ -81,4 +96,16 @@ export const TransactionTypeContainer = styled.div`
         color: var(--text-title);
     }
 
+
+
 `
+
+/**
+ * 
+ * 1) opacity é no botão inteiro
+ * 
+ * 2) background: ${ (props) => props.isActive ? transparentize(0.8, colors[props.activeColor]) : 'transparent'};
+ * é apenas no background
+ * 
+ * 
+ */

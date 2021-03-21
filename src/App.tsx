@@ -23,10 +23,15 @@ export function App() {
   return (
    
      <>
-      <Header onOpenNewTransationModal={handleOpenNewTransactionModal} />
+      <Header 
+      onOpenNewTransationModal={handleOpenNewTransactionModal}
+      />
       <Dashboard />
 
-      <NewTransactionsModal isOpen={isNewTransactionModalOpen} onRequestClose={handleCloseNewTransactionModal} />
+      <NewTransactionsModal 
+      isOpen={isNewTransactionModalOpen}
+      onRequestClose={handleCloseNewTransactionModal}
+      />
 
       <GlobalStyle/>
       

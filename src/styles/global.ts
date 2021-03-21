@@ -80,9 +80,9 @@ justify-content:center;
     top:1.5rem;
     border:0;
     background:transparent;
-
-    &{
-        filter: brightness(0.9)
+    transition: filter 0.2s;
+    &:hover{
+        filter: brightness(0.8)
     }
 }
 `
