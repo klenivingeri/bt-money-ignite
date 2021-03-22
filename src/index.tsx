@@ -16,7 +16,7 @@ createServer({
         type: 'deposit',
         category: 'Dev',
         amount: 6000,
-        createdAt: new Date('2021-02-12 09:00:00')
+        createdAt: new Date('2021-02-12')
 
       },
       {
@@ -25,7 +25,7 @@ createServer({
         type: 'withdraw',
         category: 'Alugel',
         amount: 400,
-        createdAt: new Date('2021-02-14 09:00:00')
+        createdAt: new Date('2021-02-14')
 
       }]
     })

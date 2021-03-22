@@ -1,12 +1,32 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
+import { useTransactions } from '../../hooks/useTransactions';
+
 import incomeImg from '../../assets/entradas.svg'
 import outcomeImg from '../../assets/saidas.svg'
 import totalImg from '../../assets/total.svg'
-import { TransactionsContext } from '../../TransactionsContext';
+
 import { Container } from "./styles";
 
 export function Summary(){
-    const transacitons = useContext(TransactionsContext)
+    const {transactions} =  useTransactions()
+
+const summary = transactions.reduce((acc, transaction) =>{ // 1 e 2
+    if(transaction.type == 'deposit'){
+        acc.deposit += transaction.amount;
+        acc.total +=  transaction.amount;
+    }else{
+        acc.withdraws += transaction.amount; 
+        acc.total -=  transaction.amount;
+    }
+    return acc;
+    },{
+    deposit:0,
+    withdraws:0,
+    total: 0,
+    }
+)
+
+
     return(
         <Container>
 
@@ -16,7 +36,11 @@ export function Summary(){
                    <p>Entradas</p>
                    <img src={incomeImg} alt="Entredas"/>
                </header>
-               <strong>R$ 1000,00</strong>
+               <strong> 
+               {new Intl.NumberFormat('pt-BR',{
+                                style: 'currency',
+                                currency: 'BRL'
+                                }).format(summary.deposit)} </strong>
            </div>
 
            <div>
@@ -24,7 +48,10 @@ export function Summary(){
                    <p>Saídas</p>
                    <img src={outcomeImg} alt="Saídas"/>
                </header>
-               <strong> - R$ 500,00</strong>
+               <strong>-{new Intl.NumberFormat('pt-BR',{
+                                style: 'currency',
+                                currency: 'BRL'
+                                }).format(summary.withdraws)}</strong>
            </div>
 
            <div className="highlight-background">
@@ -32,9 +59,27 @@ export function Summary(){
                    <p>Total</p>
                    <img src={totalImg} alt="Total"/>
                </header>
-               <strong>R$ 500,00</strong>
+               <strong>{new Intl.NumberFormat('pt-BR',{
+                                style: 'currency',
+                                currency: 'BRL'
+                                }).format(summary.total)}</strong>
            </div>
         </Container>
     )
 }
 
+
+
+/**
+ * 1) forma que tambem da certo porem tem que ser repedida 3 vezes uma pra casa variavel
+ *    const  totalDeposits = transactions.reduce((acc, transaction) =>{
+ *    if (transaction.type == 'deposit'){
+ *       return acc + transaction.amount;
+ *    }
+ *    return acc;
+ *    }, 0)
+ *   
+ *
+ * 2) const summary = transactions.reduce((acc, transaction)  
+ *    acc é o acumulador e transaction  nosso array
+ */

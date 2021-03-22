@@ -5,13 +5,13 @@ import { GlobalStyle } from "./styles/global";
 
 import { useState } from 'react'
 import { NewTransactionsModal } from './components/NewTransactionsModal';
-import { TransactionsProvider } from './TransactionsContext';
+import { TransactionsProvider } from './hooks/useTransactions';
 
 Modal.setAppElement('#root'); // para ajudar na acessibilidade
 
 export function App() {
-
   const [ isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
+
 
   function handleOpenNewTransactionModal(){
       setIsNewTransactionModalOpen(true);
@@ -25,10 +25,8 @@ export function App() {
 
   return (
    
-     <TransactionsProvider  >
-      <Header 
-      onOpenNewTransationModal={handleOpenNewTransactionModal}
-      />
+     <TransactionsProvider >
+      <Header onOpenNewTransationModal={handleOpenNewTransactionModal} />
       <Dashboard />
 
       <NewTransactionsModal 
@@ -38,7 +36,7 @@ export function App() {
 
       <GlobalStyle/>
       
-    </ TransactionsProvider>
+    </TransactionsProvider>
   );
 }
 
